@@ -1,0 +1,16 @@
+Php project
+1) Database
+	- User - Id, Email, Name, Password (hash ? )
+	- Coin - Id, Name, Symbol, Rank, Price_USD, Amount, PortfolioId
+	- Portfolio - Id, UserId
+2) Php Classes 
+	- User - Id, Email, Name, Password
+	- Coin - Id, Name, Symbol, Rank, Price_USD, Amount, PortfolioId
+	- Portfolio - Id, UserId
+3) Php Api 
+	- Users - Get, Put, Post
+	- Portfolios - Get, Post, Delete
+	- Coins - Get, Put, Post
+4) Php Backend
+	- Users - Register, Login, Logout
+	- Portfolios - Refresh, Download
