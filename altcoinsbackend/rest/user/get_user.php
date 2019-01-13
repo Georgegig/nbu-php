@@ -4,34 +4,31 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 // include database and object files
-include_once '../../config/database.php';
-include_once '../../objects/coin.php';
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/config/database.php";
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/objects/user.php";
  
-// instantiate database and coin object
+// instantiate database and user object
 $database = new Database();
 $db = $database->getConnection();
  
 // initialize object
-$coin = new Coin($db);
-$coin->id = $_GET["id"];
+$user = new User($db);
+$user->id = $_GET["id"];
 
-$stmt = $coin->get();
+$stmt = $user->get();
 $num = $stmt->rowCount();
  
 if($num>0){ 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         extract($row);
  
-        $coin_result= array("id" => $id,
+        $user_result= array("id" => $id,
             "name" => $name,
-			"symbol" => $symbol,
-			"rank" => $rank,
-			"price" => $price,
-			"amount" => $amount,
-            "portfolioId" => $portfolioId);
+            "email" => $email,
+            "password" => $password);
     }
     http_response_code(200);
-    echo json_encode($coin_result);
+    echo json_encode($user_result);
 } else{
     http_response_code(404);
     echo json_encode(

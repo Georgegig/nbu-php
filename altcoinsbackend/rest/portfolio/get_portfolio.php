@@ -4,8 +4,8 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 // include database and object files
-include_once '../../config/database.php';
-include_once '../../objects/portfolio.php';
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/config/database.php";
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/objects/portfolio.php";
  
 // instantiate database and portfolio object
 $database = new Database();

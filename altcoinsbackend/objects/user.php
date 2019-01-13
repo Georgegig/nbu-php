@@ -1,30 +1,28 @@
 <?php
-include_once '../../shared/utilities.php';
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/shared/utilities.php";
 
-class Coin{
+class User{
     // database connection and table name
+	private $utilities;
     private $conn;
-    private $table_name = "coin";
+    private $table_name = "user";
  
     // object properties
     public $id;
     public $name;
-    public $symbol;
-    public $rank;
-    public $price;
-    public $amount;
-    public $portfolioId;
+    public $email;
+    public $password;
  
     // constructor with $db as database connection
     public function __construct($db){
-        $this->conn = $db;
+        $this->conn = $db;		
 		$this->utilities = new Utilities();
     }
 	
 	function get(){ 
 		// select all query
 		$query = "SELECT
-					id, name, symbol, rank, price, amount, portfolioId
+					id, email, name, password
 				FROM
 					" . $this->table_name . "
 				WHERE id = '" . $this->id ."'" ;
@@ -36,18 +34,16 @@ class Coin{
 		$stmt->execute();
 	 
 		return $stmt;
-	}	
+	}
+	
 	
 	function update(){		
 		// select all query
 		$query = "UPDATE " . $this->table_name . "
 				SET
+					email = '" . $this->email . "', 
 					name = '" . $this->name . "', 
-					symbol = '" . $this->symbol . "', 
-					rank = '" . $this->rank . "', 
-					price = '" . $this->price . "', 
-					amount = '" . $this->amount . "', 
-					portfolioId = '" . $this->portfolioId . "'
+					password = '" . $this->password . "'
 				WHERE id = '" . $this->id . "'";
 	 
 		// prepare query statement
@@ -62,15 +58,12 @@ class Coin{
 	
 	function create(){		
 		// select all query
-		$query = "INSERT INTO " . $this->table_name . " (id, name, symbol, rank, price, amount, portfolioId)
+		$query = "INSERT INTO " . $this->table_name . " (id, email, name, password)
 				VALUES
 					('" . $this->utilities->getGUID() . "',
+					'" . $this->email . "', 
 					'" . $this->name . "', 
-					'" . $this->symbol . "',
-					'" . $this->rank . "',
-					'" . $this->price . "',
-					'" . $this->amount . "', 
-					'" . $this->portfolioId . "')";
+					'" . $this->password . "')";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);

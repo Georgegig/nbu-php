@@ -1,28 +1,26 @@
 <?php
-include_once '../../shared/utilities.php';
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/shared/utilities.php";
 
-class User{
+class Portfolio{
     // database connection and table name
-	private $utilities;
     private $conn;
-    private $table_name = "user";
+    private $table_name = "portfolio";
+	private $utilities;
  
     // object properties
     public $id;
-    public $name;
-    public $email;
-    public $password;
+    public $userId;
  
     // constructor with $db as database connection
     public function __construct($db){
-        $this->conn = $db;		
+        $this->conn = $db;
 		$this->utilities = new Utilities();
     }
 	
 	function get(){ 
 		// select all query
 		$query = "SELECT
-					id, email, name, password
+					id, userId
 				FROM
 					" . $this->table_name . "
 				WHERE id = '" . $this->id ."'" ;
@@ -34,16 +32,13 @@ class User{
 		$stmt->execute();
 	 
 		return $stmt;
-	}
-	
+	}	
 	
 	function update(){		
 		// select all query
 		$query = "UPDATE " . $this->table_name . "
 				SET
-					email = '" . $this->email . "', 
-					name = '" . $this->name . "', 
-					password = '" . $this->password . "'
+					userId = '" . $this->userId . "'
 				WHERE id = '" . $this->id . "'";
 	 
 		// prepare query statement
@@ -58,12 +53,10 @@ class User{
 	
 	function create(){		
 		// select all query
-		$query = "INSERT INTO " . $this->table_name . " (id, email, name, password)
+		$query = "INSERT INTO " . $this->table_name . " (id, userId)
 				VALUES
 					('" . $this->utilities->getGUID() . "',
-					'" . $this->email . "', 
-					'" . $this->name . "', 
-					'" . $this->password . "')";
+					'" . $this->userId . "')";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);

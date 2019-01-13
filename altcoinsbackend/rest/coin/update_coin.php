@@ -6,8 +6,8 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, X-Requested-With");
 
 // include database and object files
-include_once '../../config/database.php';
-include_once '../../objects/coin.php';
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/config/database.php";
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/objects/coin.php";
  
 // instantiate database and coin object
 $database = new Database();

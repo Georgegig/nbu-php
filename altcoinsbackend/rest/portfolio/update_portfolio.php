@@ -1,41 +1,37 @@
 <?php
-
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: PUT");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, X-Requested-With");
 
 // include database and object files
-include_once '../../config/database.php';
-include_once '../../objects/user.php';
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/config/database.php";
+include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/objects/portfolio.php";
  
 // instantiate database and user object
 $database = new Database();
 $db = $database->getConnection();
 
 // initialize object
-$user = new User($db);
+$portfolio = new Portfolio($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
-$user->id = $data->id;
-$user->name = $data->name;
-$user->email = $data->email;
-$user->password = $data->password;
+$portfolio->id = $data->id;
+$portfolio->userId = $data->userId;
 
-$user_updated = $user->update();
+$portfolio_updated = $portfolio->update();
 
-if($user_updated){
-	$result= array("message" => "User was updated.",
-			"id" => $user->id,
-            "name" => $user->name,
-            "email" => $user->email);
+if($portfolio_updated){
+	$result= array("message" => "Portfolio was updated.",
+			"id" => $portfolio->id,
+            "userId" => $portfolio->userId);
     http_response_code(200);
     echo json_encode($result);
 }
 else{
     echo '{';
-        echo '"message": "Unable to update user."';
+        echo '"message": "Unable to update portfolio."';
     echo '}';
 }
 ?>
