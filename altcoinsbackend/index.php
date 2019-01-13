@@ -21,8 +21,7 @@ switch ($resource_uri) {
 				require './rest/user/create_user.php';
 				break;
 			default:
-				require './shared/404.php';
-			
+				require './shared/404.php';	
 		}
         break;	
     case '/coin':
@@ -57,6 +56,9 @@ switch ($resource_uri) {
 			
 		}
         break;
+	case '/login':
+		require './controllers/users/login.php';
+		break;
     default:
 		require './shared/404.php';
 }
