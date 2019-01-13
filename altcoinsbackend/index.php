@@ -6,7 +6,13 @@ switch ($resource_uri) {
     case '/user':
 		switch ($_SERVER['REQUEST_METHOD']) {
 			case 'GET':
-				require './rest/user/get_user.php';
+				if (isset($_GET["id"])) {
+					require './rest/user/get_user.php';					
+				} elseif (isset($_GET["email"])) {
+					require './rest/user/get_user_by_email.php';
+				} else {
+					require './shared/404.php';
+				}
 				break;
 			case 'PUT':
 				require './rest/user/update_user.php';

@@ -37,6 +37,23 @@ class User{
 	}
 	
 	
+	function get_by_email(){ 
+		// select all query
+		$query = "SELECT
+					id, email, name, password
+				FROM
+					" . $this->table_name . "
+				WHERE email = '" . $this->email ."'" ;
+	 
+		// prepare query statement
+		$stmt = $this->conn->prepare($query);
+	 
+		// execute query
+		$stmt->execute();
+	 
+		return $stmt;
+	}
+	
 	function update(){		
 		// select all query
 		$query = "UPDATE " . $this->table_name . "
