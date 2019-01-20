@@ -1,7 +1,4 @@
-<?php	
-// get user by email
-// validate password
-// return result
+<?php
 // required headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -13,9 +10,14 @@ include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/objects/user.php";
 $database = new Database();
 $db = $database->getConnection();
 $user = new User($db);
-
 // request user from rest api
-$data = file_get_contents('http://'.$_SERVER['HTTP_HOST'].'/altcoinsbackend/user?email=g@g.bg');
+$curl = curl_init();
+curl_setopt_array($curl, array(
+    CURLOPT_RETURNTRANSFER => 1,
+    CURLOPT_URL => 'http://'.$_SERVER['HTTP_HOST'].'/altcoinsbackend/user?email='.$_POST['email']
+));
+$data = curl_exec($curl);
+curl_close($curl);
 
 if ($data == false) {	
     http_response_code(404);
@@ -23,8 +25,19 @@ if ($data == false) {
         array("message" => "No users found.")
     );
 } else {
-	$json_object = json_decode($data, true);
-	foreach ($json_object as $key => $value) $user->{$key} = $value;
-	var_dump($user);	
+    $json_object = json_decode($data, true);
+    foreach ($json_object as $key => $value) 
+    {
+        $user->{$key} = $value;
+    }
+	if ($user->password == $_POST['password']) {
+        $result= array("success" => true);
+        http_response_code(200);
+        echo json_encode($result);
+    } else {
+        $result= array("success" => false);
+        http_response_code(200);
+        echo json_encode($result);
+    }
 }
 ?>

@@ -3,7 +3,27 @@ $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2)[0];
 $resource_uri = explode('/altcoinsbackend', $request_uri, 2)[1];
 
 switch ($resource_uri) {
-    case '/user':
+	case '/login':
+		switch($_SERVER['REQUEST_METHOD']) {
+			case 'POST':
+				require './controllers/users/login.php';
+				break;
+			default:
+				require './shared/404.php';
+				break;
+		}
+		break;
+	case '/register':
+		switch($_SERVER['REQUEST_METHOD']) {
+			case 'POST':
+				require './controllers/users/register.php';
+				break;
+			default:
+				require './shared/404.php';
+				break;
+		}
+		break;
+	case '/user':
 		switch ($_SERVER['REQUEST_METHOD']) {
 			case 'GET':
 				if (isset($_GET["id"])) {
@@ -22,6 +42,7 @@ switch ($resource_uri) {
 				break;
 			default:
 				require './shared/404.php';	
+				break;
 		}
         break;	
     case '/coin':
@@ -37,6 +58,7 @@ switch ($resource_uri) {
 				break;
 			default:
 				require './shared/404.php';
+				break;
 			
 		}
         break;
@@ -53,13 +75,12 @@ switch ($resource_uri) {
 				break;
 			default:
 				require './shared/404.php';
+				break;
 			
 		}
         break;
-	case '/login':
-		require './controllers/users/login.php';
-		break;
     default:
 		require './shared/404.php';
+		break;
 }
 ?>

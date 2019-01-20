@@ -63,39 +63,26 @@ let RegisterView = {
                     function error(data) {
                         console.log(data);
                     });
-            // if (this.$refs.form.validate()) {
-              // Native form submission is not yet supported
-              // UsersTable.registerUser({
-              //   name: this.name,
-              //   email: this.email,
-              //   password: CryptoJS.SHA256(this.password).toString()
-              // });
-              //   this.$http.get('http:localhost:5005/altcoins/home/home.php')
-              //       .then(function success(data) {
-              //           console.log(data);
-              //       },
-              //       function error(data) {
-              //           console.log(data);
-              //       });
-              //   this.$http.post('http:localhost:5005/altcoins/home', {
-              //       Name: this.name,
-              //       Email: this.email,
-              //       Password: this.password
-              //   }).then(function success(data) {
-              //           if (data.body.success) {
-              //               window.location = CONSTANTS.SERVER_ROUTES.LOGIN;
-              //           }
-              //           else {
-              //               this.unsuccessfulregistration.show = true;
-              //               this.unsuccessfulregistration.message = data.body.message;
-              //           }
-              //           console.log(data);
-              //       },
-              //       function error(data) {
-              //           console.log(data);
-              //       });
-              // this.$router.push('/login');
-            // }
+            if (this.$refs.form.validate()) {
+              this.$http.post('http:localhost:5005/altcoins/home', {
+                    Name: this.name,
+                    Email: this.email,
+                    Password:  this.password// CryptoJS.SHA256(this.password).toString()
+                }).then(function success(data) {
+                        if (data.body.success) {
+                            window.location = CONSTANTS.SERVER_ROUTES.LOGIN;
+                        }
+                        else {
+                            this.unsuccessfulregistration.show = true;
+                            this.unsuccessfulregistration.message = data.body.message;
+                        }
+                        console.log(data);
+                    },
+                    function error(data) {
+                        console.log(data);
+                    });
+              this.$router.push('/login');
+            }
           },
           clear() {
             this.$refs.form.reset()
