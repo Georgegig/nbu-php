@@ -55,19 +55,11 @@ let RegisterView = {
     },
     methods:{
         register() {
-
-            this.$http.get('/altcoins/home/home.php')
-                .then(function success(data) {
-                        console.log(data);
-                    },
-                    function error(data) {
-                        console.log(data);
-                    });
             if (this.$refs.form.validate()) {
-              this.$http.post('http:localhost:5005/altcoins/home', {
-                    Name: this.name,
-                    Email: this.email,
-                    Password:  this.password// CryptoJS.SHA256(this.password).toString()
+              this.$http.post('http:localhost:5005/altcoins/register', {
+                    name: this.name,
+                    email: this.email,
+                    pasword:  this.password// CryptoJS.SHA256(this.password).toString()
                 }).then(function success(data) {
                         if (data.body.success) {
                             window.location = CONSTANTS.SERVER_ROUTES.LOGIN;

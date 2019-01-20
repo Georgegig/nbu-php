@@ -27,7 +27,8 @@ $user_created = $user->create();
 if($user_created){
 	$result= array("message" => "User was created.",
             "name" => $user->name,
-            "email" => $user->email);
+            "email" => $user->email,
+        "success" => true);
     http_response_code(200);
     echo json_encode($result);
 }
