@@ -14,15 +14,15 @@ let UsersTable = (function(){
     };
 
     let validateEmailAndPassword = (email, password) => {
-        let usersTable = JSON.parse(localStorage.getItem('usersTable'));
-        if(!usersTable){
-            return false;
-        }
-        for(var i = 0; i < usersTable.length; i++){
-            if(usersTable[i].email == email && usersTable[i].password == CryptoJS.SHA256(password).toString()){
-                return true;
-            }
-        }
+        // let usersTable = JSON.parse(localStorage.getItem('usersTable'));
+        // if(!usersTable){
+        //     return false;
+        // }
+        // for(var i = 0; i < usersTable.length; i++){
+        //     if(usersTable[i].email == email && usersTable[i].password == CryptoJS.SHA256(password).toString()){
+        //         return true;
+        //     }
+        // }
     };
 
     let getUsername = (email, password) => {

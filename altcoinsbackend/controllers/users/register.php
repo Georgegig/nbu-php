@@ -13,10 +13,11 @@ include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/objects/user.php";
 $database = new Database();
 $db = $database->getConnection();
 $user = new User($db);
-// request user from rest api
-// Get cURL resource
+
+// register user
 $params = json_decode(file_get_contents("php://input"));                                                              
 $data_string = json_encode($params);                                                                                                                     
+
 $ch = curl_init('http://'.$_SERVER['HTTP_HOST'].'/altcoinsbackend/user');                                                                      
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
@@ -25,22 +26,35 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Type: application/json',                                                                                
     'Content-Length: ' . strlen($data_string))                                                                       
 );                                                                                                                   
-                                                                                                                     
-$data = curl_exec($ch);
+$user_registration = curl_exec($ch);
 curl_close($ch);
+$user_registration = json_decode($user_registration);
 
-$data = json_decode($data);
-
-if ($data == false) {	
+if ($user_registration == false) {	
     http_response_code(404);
     echo json_encode(
         array("message" => "Error occured.")
     );
 } else {
-	if ($data->success == true) {
-        $result= array("success" => true);
-        http_response_code(200);
-        echo json_encode($result);
+    if ($user_registration->success == true) {
+        // create portfolio
+        $some_string = json_encode(array("userId" => $user_registration->id));     
+        $chh = curl_init('http://'.$_SERVER['HTTP_HOST'].'/altcoinsbackend/portfolio');                                                                      
+        curl_setopt($chh, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+        curl_setopt($chh, CURLOPT_POSTFIELDS, $some_string);                                                                  
+        curl_setopt($chh, CURLOPT_RETURNTRANSFER, true);                                                                      
+        curl_setopt($chh, CURLOPT_HTTPHEADER, array(                                                                          
+            'Content-Type: application/json',                                                                                
+            'Content-Length: ' . strlen($some_string))                                                                       
+        );                                                                                                                   
+        $portfolio_creation = curl_exec($chh);
+        curl_close($chh);                                                                              
+        $portfolio_creation = json_decode($portfolio_creation);
+        if ($portfolio_creation->success) {
+            $result= array("success" => true);
+            http_response_code(200);
+            echo json_encode($result);
+        }
     } else {
         $result= array("success" => false);
         http_response_code(200);

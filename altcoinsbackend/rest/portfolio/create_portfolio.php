@@ -24,7 +24,8 @@ $portfolio_created = $portfolio->create();
 
 if($portfolio_created){
 	$result= array("message" => "Portfolio was created.",
-            "userId" => $portfolio->userId);
+            "userId" => $portfolio->userId,
+        "success" => true);
     http_response_code(200);
     echo json_encode($result);
 }

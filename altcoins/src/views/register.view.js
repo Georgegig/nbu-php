@@ -56,24 +56,21 @@ let RegisterView = {
     methods:{
         register() {
             if (this.$refs.form.validate()) {
-              this.$http.post('http:localhost:5005/altcoins/register', {
+              this.$http.post('/altcoinsbackend/register', {
                     name: this.name,
                     email: this.email,
-                    pasword:  this.password// CryptoJS.SHA256(this.password).toString()
+                    password:  this.password// CryptoJS.SHA256(this.password).toString()
                 }).then(function success(data) {
-                        if (data.body.success) {
-                            window.location = CONSTANTS.SERVER_ROUTES.LOGIN;
-                        }
-                        else {
-                            this.unsuccessfulregistration.show = true;
-                            this.unsuccessfulregistration.message = data.body.message;
-                        }
-                        console.log(data);
-                    },
-                    function error(data) {
-                        console.log(data);
-                    });
-              this.$router.push('/login');
+                    debugger;
+                    if (data.body.success) {
+                        this.$router.push('/login');
+                    } else {
+                        throw new Error('Unsuccessful registration');
+                    }
+                },
+                function error(data) {
+                    console.log(data);
+                });
             }
           },
           clear() {

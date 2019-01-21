@@ -77,7 +77,7 @@ class User{
 		// select all query
 		$query = "INSERT INTO " . $this->table_name . " (id, email, name, password)
 				VALUES
-					('" . $this->utilities->getGUID() . "',
+					('" . $this->id . "',
 					'" . $this->email . "', 
 					'" . $this->name . "', 
 					'" . $this->password . "')";

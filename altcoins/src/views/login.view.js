@@ -47,23 +47,33 @@ let LoginView = {
                 this.successfulLogin = false;
                 this.unsuccessfulLogin = false;
               // Native form submission is not yet supported
-                if(UsersTable.validateEmailAndPassword(this.email, this.password)){
-                    let loginDate = new Date();
-                    let user = {
-                        name: UsersTable.getUsername(this.email, this.password),
-                        email: this.email,
-                        timeStamp:  loginDate.getFullYear() + '-' + (loginDate.getMonth() + 1) + '-' + loginDate.getDate()
-                    };
-                    UsersTable.loginUser(user);
-                    this.successfulLogin = true;
-                    setTimeout(() => {
-                        this.$router.push('/portfolio');
-                    }, 1500)
-                    this.$eventHub.$emit('loginChange');
-                }
-                else{
+              this.$http.post('/altcoinsbackend/login', {
+                email: this.email,
+                password: this.password // CryptoJS.SHA256(this.password).toString()
+                }).then(function success(data) {
+                    debugger;
+                    if (data.body.success) {
+                        let loginDate = new Date();
+                        let user = {
+                            name: UsersTable.getUsername(this.email, this.password),
+                            email: this.email,
+                            timeStamp:  loginDate.getFullYear() + '-' + (loginDate.getMonth() + 1) + '-' + loginDate.getDate()
+                        };
+                        UsersTable.loginUser(user);
+                        this.successfulLogin = true;
+                        setTimeout(() => {
+                            this.$router.push('/portfolio');
+                        }, 1500)
+                        this.$eventHub.$emit('loginChange');
+                    } else {
+                        throw new Error('Unsuccessful login');
+                        this.unsuccessfulLogin = true;
+                    }
+                },
+                function error(data) {
                     this.unsuccessfulLogin = true;
-                }
+                    console.log(data);
+                });
             }
           },
           clear() {

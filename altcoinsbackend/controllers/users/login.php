@@ -11,10 +11,11 @@ $database = new Database();
 $db = $database->getConnection();
 $user = new User($db);
 // request user from rest api
+$params = json_decode(file_get_contents("php://input"));
 $curl = curl_init();
 curl_setopt_array($curl, array(
     CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_URL => 'http://'.$_SERVER['HTTP_HOST'].'/altcoinsbackend/user?email='.$_POST['email']
+    CURLOPT_URL => 'http://'.$_SERVER['HTTP_HOST'].'/altcoinsbackend/user?email='.$params->email
 ));
 $data = curl_exec($curl);
 curl_close($curl);
@@ -30,7 +31,7 @@ if ($data == false) {
     {
         $user->{$key} = $value;
     }
-	if ($user->password == $_POST['password']) {
+	if ($user->password == $params->password) {
         $result= array("success" => true);
         http_response_code(200);
         echo json_encode($result);
