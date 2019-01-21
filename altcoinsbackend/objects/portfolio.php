@@ -17,6 +17,23 @@ class Portfolio{
 		$this->utilities = new Utilities();
     }
 	
+	function getByUserId(){ 
+		// select all query
+		$query = "SELECT
+					id, userId
+				FROM
+					" . $this->table_name . "
+				WHERE userId = '" . $this->userId ."'" ;
+	 
+		// prepare query statement
+		$stmt = $this->conn->prepare($query);
+	 
+		// execute query
+		$stmt->execute();
+	 
+		return $stmt;
+	}	
+	
 	function get(){ 
 		// select all query
 		$query = "SELECT

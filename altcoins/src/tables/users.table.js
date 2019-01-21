@@ -24,9 +24,14 @@ let UsersTable = (function(){
         localStorage.removeItem('user');
     };
 
+    let loggedUser = () => {
+        return JSON.parse(localStorage.getItem('user'));
+    }
+
     return {
         userLoggedIn: userLoggedIn,
         loginUser: loginUser,
-        logoutUser: logoutUser
+        logoutUser: logoutUser,
+        loggedUser: loggedUser
     }
 })();

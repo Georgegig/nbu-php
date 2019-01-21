@@ -13,6 +13,16 @@ switch ($resource_uri) {
 				break;
 		}
 		break;
+	case '/getportfolio':
+		switch($_SERVER['REQUEST_METHOD']) {
+			case 'GET':
+				require './controllers/portfolios/getcoinsinportfolio.php';
+				break;
+			default:
+				require './shared/404.php';
+				break;
+		}
+		break;
 	case '/register':
 		switch($_SERVER['REQUEST_METHOD']) {
 			case 'POST':
@@ -48,7 +58,13 @@ switch ($resource_uri) {
     case '/coin':
 		switch ($_SERVER['REQUEST_METHOD']) {
 			case 'GET':
-				require './rest/coin/get_coin.php';
+				if (isset($_GET["id"])) {
+					require './rest/coin/get_coin.php';				
+				} elseif (isset($_GET["portfolioid"])) {
+					require './rest/coin/get_coins_by_portfolioid.php';
+				} else {
+					require './shared/404.php';
+				}
 				break;
 			case 'PUT':
 				require './rest/coin/update_coin.php';
@@ -65,7 +81,13 @@ switch ($resource_uri) {
     case '/portfolio':
 		switch ($_SERVER['REQUEST_METHOD']) {
 			case 'GET':
-				require './rest/portfolio/get_portfolio.php';
+				if (isset($_GET["id"])) {
+					require './rest/portfolio/get_portfolio.php';					
+				} elseif (isset($_GET["userid"])) {
+					require './rest/portfolio/get_portfolio_by_userid.php';
+				} else {
+					require './shared/404.php';
+				}
 				break;
 			case 'PUT':
 				require './rest/portfolio/update_portfolio.php';

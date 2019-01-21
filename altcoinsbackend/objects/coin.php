@@ -19,7 +19,24 @@ class Coin{
     public function __construct($db){
         $this->conn = $db;
 		$this->utilities = new Utilities();
-    }
+	}
+	
+	function getByPortfolioId(){ 
+		// select all query
+		$query = "SELECT
+					id, name, symbol, rank, price, amount, portfolioId
+				FROM
+					" . $this->table_name . "
+				WHERE portfolioId = '" . $this->portfolioId ."'" ;
+	 
+		// prepare query statement
+		$stmt = $this->conn->prepare($query);
+	 
+		// execute query
+		$stmt->execute();
+	 
+		return $stmt;
+	}	
 	
 	function get(){ 
 		// select all query

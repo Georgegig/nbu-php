@@ -10,12 +10,13 @@ include_once "$_SERVER[DOCUMENT_ROOT]/altcoinsbackend/objects/coin.php";
 // instantiate database and coin object
 $database = new Database();
 $db = $database->getConnection();
+$coins = array();
  
 // initialize object
 $coin = new Coin($db);
-$coin->id = $_GET["id"];
+$coin->portfolioId = $_GET["portfolioid"];
 
-$stmt = $coin->get();
+$stmt = $coin->getByPortfolioId();
 $num = $stmt->rowCount();
  
 if($num>0){ 
@@ -29,13 +30,10 @@ if($num>0){
 			"price" => $price,
 			"amount" => $amount,
             "portfolioId" => $portfolioId);
+
+        array_push($coins, $coin_result);
     }
-    http_response_code(200);
-    echo json_encode($coin_result);
-} else{
-    http_response_code(404);
-    echo json_encode(
-        array("message" => "No coin found.")
-    );
-}
+} 
+http_response_code(200);
+echo json_encode($coins);
 ?>
