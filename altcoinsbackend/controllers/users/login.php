@@ -32,7 +32,8 @@ if ($data == false) {
         $user->{$key} = $value;
     }
 	if ($user->password == $params->password) {
-        $result= array("success" => true);
+        $result= array("success" => true,
+        "username" => $user->name);
         http_response_code(200);
         echo json_encode($result);
     } else {

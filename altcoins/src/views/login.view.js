@@ -55,7 +55,7 @@ let LoginView = {
                     if (data.body.success) {
                         let loginDate = new Date();
                         let user = {
-                            name: UsersTable.getUsername(this.email, this.password),
+                            name: data.body.username,
                             email: this.email,
                             timeStamp:  loginDate.getFullYear() + '-' + (loginDate.getMonth() + 1) + '-' + loginDate.getDate()
                         };

@@ -27,9 +27,7 @@ let RegisterView = {
             email: '',
             emailRules: [
                 (v) => !!v || 'E-mail is required',
-                (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid',
-                (v) => JSON.parse(localStorage.getItem('usersTable')) ? 
-                     UsersTable.usersTableContainsEmail(v) ? 'E-mail already exists' : true : true
+                (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
             ],
             password: '',
             passwordRules: [
@@ -59,7 +57,7 @@ let RegisterView = {
               this.$http.post('/altcoinsbackend/register', {
                     name: this.name,
                     email: this.email,
-                    password:  this.password// CryptoJS.SHA256(this.password).toString()
+                    password:  this.password // CryptoJS.SHA256(this.password).toString()
                 }).then(function success(data) {
                     debugger;
                     if (data.body.success) {
