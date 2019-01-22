@@ -13,7 +13,6 @@ $db = $database->getConnection();
  
 // initialize object
 $portfolio = new Portfolio($db);
-echo $_GET["userid"];
 $portfolio->userId = $_GET["userid"];
 
 $stmt = $portfolio->getByUserId();

@@ -26,15 +26,16 @@ $coin->amount = $data->amount;
 $coin->portfolioId = $data->portfolioId;
 
 $coin_created = $coin->create();
-
+echo ' COIN CREATEEED '.$coin_created;
 if($coin_created){
 	$result= array("message" => "Coin was created.",
             "name" => $coin->name,
-            "symbol" => $coin->name,
-            "rank" => $coin->name,
-            "price" => $coin->name,
-            "amount" => $coin->name,
-            "portfolioId" => $coin->email);
+            "symbol" => $coin->symbol,
+            "rank" => $coin->rank,
+            "price" => $coin->price,
+            "amount" => $coin->amount,
+            "portfolioId" => $coin->portfolioId,
+            "success" => true);
     http_response_code(200);
     echo json_encode($result);
 }

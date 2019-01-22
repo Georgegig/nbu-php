@@ -23,6 +23,16 @@ switch ($resource_uri) {
 				break;
 		}
 		break;
+	case '/addcoin':
+		switch($_SERVER['REQUEST_METHOD']) {
+			case 'POST':
+				require './controllers/portfolios/addcoininportfolio.php';
+				break;
+			default:
+				require './shared/404.php';
+				break;
+		}
+		break;
 	case '/register':
 		switch($_SERVER['REQUEST_METHOD']) {
 			case 'POST':

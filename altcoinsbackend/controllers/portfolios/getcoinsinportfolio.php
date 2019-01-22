@@ -33,39 +33,37 @@ if ($user_data == false) {
         $user->{$key} = $value;
     }
 
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
+    $cr = curl_init();
+    curl_setopt_array($cr, array(
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_URL => 'http://'.$_SERVER['HTTP_HOST'].'/altcoinsbackend/portfolio?userid='.$user->id
     ));
-    $portfolio_data = curl_exec($curl);
-    curl_close($curl);
+    $portfolio_data = curl_exec($cr);
+    curl_close($cr);
 
-    $portfolio = json_decode($portfolio_data);
-    foreach ($json_object as $key => $value) 
-    {
-        $pf->{$key} = $value;
-    }
+    if ($portfolio_data == false) {	
+        http_response_code(404);
+        echo json_encode(
+            array("message" => "No coins found.")
+        );
+    } else {
+        $j_obj = json_decode($portfolio_data, true);        
+        foreach ($j_obj as $key => $value) 
+        {
+            $pf->{$key} = $value;
+        }
+        
+        $coins;
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => 'http://'.$_SERVER['HTTP_HOST'].'/altcoinsbackend/coin?portfolioid='.$pf->id
+        ));
+        $coins = curl_exec($curl);
+        curl_close($curl);
 
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => 'http://'.$_SERVER['HTTP_HOST'].'/altcoinsbackend/coin?portfolioid='.$pf->id
-    ));
-    $coins = curl_exec($curl);
-    curl_close($curl);
-
-    echo $coins;
-
-	// if ($user->password == $params->password) {
-    //     $result= array("success" => true,
-    //     "username" => $user->name);
-    //     http_response_code(200);
-    //     echo json_encode($result);
-    // } else {
-    //     $result= array("success" => false);
-    //     http_response_code(200);
-    //     echo json_encode($result);
-    // }
+        http_response_code(200);
+        echo $coins;
+    }    
 }
 ?>

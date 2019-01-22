@@ -19,11 +19,7 @@ class Portfolio{
 	
 	function getByUserId(){ 
 		// select all query
-		$query = "SELECT
-					id, userId
-				FROM
-					" . $this->table_name . "
-				WHERE userId = '" . $this->userId ."'" ;
+		$query = "SELECT id, userId FROM portfolio WHERE userId = '".$this->userId."'" ;
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);

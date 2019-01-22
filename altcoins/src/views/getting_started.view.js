@@ -2,10 +2,6 @@
 
 let GettingStartedView = {
     template:`
-<?php
-$response = http_get("http://www.example.com/", array("timeout"=>1), $info);
-print_r($info);
-?>
     <section>
         <v-parallax src="assets/hero.jpeg" height="300">
             <v-card class="elevation-0 blue">

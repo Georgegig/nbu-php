@@ -158,7 +158,6 @@ let PortfolioView = {
                                     this.totalAmount += parseFloat(currCoinAmount) * parseFloat(response.price_usd);
                                 }
                                 this.totalAmount = this.totalAmount.toFixed(2);
-                                // PortfolioTable.updateUserPortfolio(this.portfolio);
                             },
                             (err) => { console.log(err); }
                         );
