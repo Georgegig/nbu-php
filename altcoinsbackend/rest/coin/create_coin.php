@@ -26,7 +26,6 @@ $coin->amount = $data->amount;
 $coin->portfolioId = $data->portfolioId;
 
 $coin_created = $coin->create();
-echo ' COIN CREATEEED '.$coin_created;
 if($coin_created){
 	$result= array("message" => "Coin was created.",
             "name" => $coin->name,

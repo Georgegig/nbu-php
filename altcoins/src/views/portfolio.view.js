@@ -127,13 +127,32 @@ let PortfolioView = {
                     this.portfolio[coinIndex].amount = (parseFloat(this.portfolio[coinIndex].amount) +
                         parseFloat(this.selectedCoin.amount)).toFixed(2);
                 }
-                PortfolioTable.updateUserPortfolio(this.portfolio);
-                this.refreshPortfolio();
+                coinIndex = _.findIndex(this.portfolio, (el) => {
+                    return el.id == this.selectedCoin.id;
+                });
+                this.$http.post('/altcoinsbackend/addcoin', {
+                    email: UsersTable.loggedUser().email,
+                    name: this.portfolio[coinIndex].id,
+                    symbol: this.portfolio[coinIndex].symbol,
+                    rank: this.portfolio[coinIndex].rank,
+                    price: this.portfolio[coinIndex].price_usd,
+                    amount: this.portfolio[coinIndex].amount
+                }).then(function success(data) {
+                    debugger;
+                    if (data.body.success) {
+                        this.refreshPortfolio();
+                    } else {
+                        throw new Error('Unsuccessful registration');
+                    }
+                },
+                function error(data) {
+                    console.log(data);
+                });
+                // PortfolioTable.updateUserPortfolio(this.portfolio);
                 this.addCoinDialog = false;
             }
         },
-        refreshPortfolio() { 
-            debugger;
+        refreshPortfolio() {
             this.$http.get('/altcoinsbackend/getportfolio?email='+ UsersTable.loggedUser().email).then(
                 (data) => {
                     this.portfolio = data.body;// PortfolioTable.getUserPortfolio();
@@ -141,15 +160,16 @@ let PortfolioView = {
                     if(this.portfolio && this.portfolio.length > 0){
                         this.totalAmount = 0;
                         let promises = [];
+                        debugger;
                         for(var i = 0; i < this.portfolio.length; i++){
-                            promises.push(this.$http.get(`https://api.coinmarketcap.com/v1/ticker/${this.portfolio[i].id}/`));
+                            promises.push(this.$http.get(`https://api.coinmarketcap.com/v1/ticker/${this.portfolio[i].name.toLowerCase()}/`));
                         }
                         Promise.all(promises).then(
                             (responseArray) => {
                                 for(let i = 0; i < responseArray.length; i++){
                                     let response = responseArray[i].body[0];
                                     let coinIndex = _.findIndex(this.portfolio, (el) => {
-                                        return el.id == response.id;
+                                        return el.name.toLowerCase() == response.id;
                                     });
                                     let currentCoin = this.portfolio[coinIndex];
                                     let currCoinAmount = currentCoin.amount;

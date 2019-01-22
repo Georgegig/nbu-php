@@ -51,7 +51,6 @@ let LoginView = {
                 email: this.email,
                 password: this.password // CryptoJS.SHA256(this.password).toString()
                 }).then(function success(data) {
-                    debugger;
                     if (data.body.success) {
                         let loginDate = new Date();
                         let user = {
@@ -66,7 +65,6 @@ let LoginView = {
                         }, 1500)
                         this.$eventHub.$emit('loginChange');
                     } else {
-                        throw new Error('Unsuccessful login');
                         this.unsuccessfulLogin = true;
                     }
                 },

@@ -13,7 +13,7 @@ $db = $database->getConnection();
 $user = new User($db);
 $pf = new Portfolio($db);
 
-$params = json_decode(file_get_contents("php://input")); 
+$params = json_decode(file_get_contents("php://input"));
 // request user from rest api
 $curl = curl_init();
 curl_setopt_array($curl, array(
@@ -22,7 +22,6 @@ curl_setopt_array($curl, array(
 ));
 $user_data = curl_exec($curl);
 curl_close($curl);
-
 if ($user_data == false) {	
     http_response_code(404);
     echo json_encode(
@@ -54,7 +53,7 @@ if ($user_data == false) {
         {
             $pf->{$key} = $value;
         }
-        $coin;
+        $coin = new \stdClass();
         $coin->name = $params->name;
         $coin->symbol = $params->symbol;
         $coin->rank = $params->rank;

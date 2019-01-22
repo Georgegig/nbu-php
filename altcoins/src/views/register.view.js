@@ -59,7 +59,6 @@ let RegisterView = {
                     email: this.email,
                     password:  this.password // CryptoJS.SHA256(this.password).toString()
                 }).then(function success(data) {
-                    debugger;
                     if (data.body.success) {
                         this.$router.push('/login');
                     } else {
