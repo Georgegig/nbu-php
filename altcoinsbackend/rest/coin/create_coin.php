@@ -38,7 +38,8 @@ if($coin_created){
     http_response_code(200);
     echo json_encode($result);
 }
-else{
+else{    
+    http_response_code(404);
     echo '{';
         echo '"message": "Unable to create coin."';
     echo '}';

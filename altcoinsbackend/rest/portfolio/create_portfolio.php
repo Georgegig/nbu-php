@@ -30,6 +30,7 @@ if($portfolio_created){
     echo json_encode($result);
 }
 else{
+    http_response_code(404);
     echo '{';
         echo '"message": "Unable to create portfolio."';
     echo '}';

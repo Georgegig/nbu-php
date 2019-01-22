@@ -54,10 +54,14 @@ if ($user_registration == false) {
             $result= array("success" => true);
             http_response_code(200);
             echo json_encode($result);
+        } else {
+            $result= array("success" => false);
+            http_response_code(404);
+            echo json_encode($result);
         }
     } else {
         $result= array("success" => false);
-        http_response_code(200);
+        http_response_code(404);
         echo json_encode($result);
     }
 }

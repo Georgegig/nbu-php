@@ -41,6 +41,7 @@ if($coin_updated){
     echo json_encode($result);
 }
 else{
+    http_response_code(404);
     echo '{';
         echo '"message": "Unable to update coin."';
     echo '}';

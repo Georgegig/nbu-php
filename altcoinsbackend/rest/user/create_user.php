@@ -36,6 +36,7 @@ if($user_created){
     echo json_encode($result);
 }
 else{
+    http_response_code(200);
     echo '{';
         echo '"message": "Unable to create user."';
     echo '}';
